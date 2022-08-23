@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(callSuper = true, exclude = {"user"})
+//@ToString(callSuper = true, exclude = {"user"})
 public class Meal extends BaseEntity {
 
     @Column(name = "price", nullable = false)

@@ -61,7 +61,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    @Column(name = "choose_meal_id", nullable = false, columnDefinition = "int default 0")
+    @Column(name = "choose_rest_id", nullable = false, columnDefinition = "int default 0")
     private Integer choose = 0;
 
     public User(User u) {
