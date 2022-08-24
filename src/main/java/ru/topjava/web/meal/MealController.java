@@ -5,14 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.model.Meal;
 import ru.topjava.model.Restaurant;
 import ru.topjava.repository.MealRepository;
 import ru.topjava.service.MealService;
-import ru.topjava.web.AuthUser;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -35,7 +33,7 @@ public class MealController {
     public List<Meal> getAll(@PathVariable int restId) {
         Restaurant restaurant = service.getRestaurant(restId);
         log.info("get all meals of restaurant {}", restaurant);
-        return repository.getAll(restaurant.id());
+        return repository.getAll(restId);
     }
 
     //    @GetMapping
@@ -74,7 +72,7 @@ public class MealController {
 
     @DeleteMapping("/{mealId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int restId, @AuthenticationPrincipal AuthUser authUser, @PathVariable int mealId) {
+    public void delete(@PathVariable int restId, @PathVariable int mealId) {
         log.info("delete meal {} of Restaurant {}", mealId, restId);
         Meal meal = repository.checkBelong(restId, mealId);
         repository.delete(meal);
