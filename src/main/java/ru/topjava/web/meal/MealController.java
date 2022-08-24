@@ -9,12 +9,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.model.Meal;
+import ru.topjava.model.Restaurant;
 import ru.topjava.repository.MealRepository;
 import ru.topjava.service.MealService;
 import ru.topjava.web.AuthUser;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 import static ru.topjava.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.topjava.util.validation.ValidationUtil.checkNew;
@@ -24,53 +26,61 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 @Slf4j
 @AllArgsConstructor
 public class MealController {
-    static final String REST_URL = "/api/profile/meals";
+    static final String REST_URL = "/api/restaurants/{restId}/meals";
 
     private final MealRepository repository;
     private final MealService service;
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Meal> get(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
-//        log.info("get meal {} for user {}", id, authUser.id());
-//        return ResponseEntity.of(repository.get(id, authUser.id()));
-//    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
-        log.info("delete {} for user {}", id, authUser.id());
-        Meal meal = repository.checkBelong(id, authUser.id());
-        repository.delete(meal);
+    @GetMapping
+    public List<Meal> getAll(@PathVariable int restId) {
+        Restaurant restaurant = service.getRestaurant(restId);
+        log.info("get all meals of restaurant {}", restaurant);
+        return repository.getAll(restaurant.id());
     }
 
-//    @GetMapping
+    //    @GetMapping
 //    public List<MealTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
 //        log.info("getAll for user {}", authUser.id());
 //        return MealsUtil.getTos(repository.getAll(authUser.id()), authUser.getUser().getCaloriesPerDay());
 //    }
 
-
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody Meal meal, @PathVariable int id) {
-        int userId = authUser.id();
-        log.info("update {} for user {}", meal, userId);
-        assureIdConsistent(meal, id);
-        repository.checkBelong(id, userId);
-        service.save(meal, userId);
+    @GetMapping("/{mealId}")
+    public ResponseEntity<Meal> get(@PathVariable int restId, @PathVariable int mealId) {
+        Restaurant restaurant = service.getRestaurant(restId);
+        log.info("get meal {} of restaurant {}", mealId, restaurant);
+        return ResponseEntity.of(repository.get(restId, mealId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createWithLocation(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody Meal meal) {
-        int userId = authUser.id();
-        log.info("create {} for user {}", meal, userId);
+    public ResponseEntity<Meal> create(@PathVariable int restId, @Valid @RequestBody Meal meal) {
+        Restaurant restaurant = service.getRestaurant(restId);
+        log.info("create {} of restaurant {}", meal, restaurant);
         checkNew(meal);
-        Meal created = service.save(meal, userId);
+        Meal created = service.save(meal, restId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
+
+    @PutMapping(value = "/{mealId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable int restId, @Valid @RequestBody Meal meal, @PathVariable int mealId) {
+        log.info("update {} for restaurant {}", meal, restId);
+        assureIdConsistent(meal, mealId);
+        repository.checkBelong(restId, mealId);
+        service.save(meal, restId);
+    }
+
+    @DeleteMapping("/{mealId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int restId, @AuthenticationPrincipal AuthUser authUser, @PathVariable int mealId) {
+        log.info("delete meal {} of Restaurant {}", mealId, restId);
+        Meal meal = repository.checkBelong(restId, mealId);
+        repository.delete(meal);
+    }
+
+
 
 
 //    @GetMapping("/filter")

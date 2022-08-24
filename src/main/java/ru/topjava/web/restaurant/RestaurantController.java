@@ -33,17 +33,17 @@ public class RestaurantController {
         return repository.getAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> get(@PathVariable int id) {
-        log.info("get restaurant {}", id);
-        return ResponseEntity.of(repository.findById(id));
+    @GetMapping("/{restId}")
+    public ResponseEntity<Restaurant> get(@PathVariable int restId) {
+        log.info("get restaurant {}", restId);
+        return ResponseEntity.of(repository.findById(restId));
     }
 
-    @GetMapping("/{id}/meals")
-    public ResponseEntity<Restaurant> getWithMeals(@PathVariable int id) {
-        log.info("get restaurant {} with meals", id);
-        return ResponseEntity.of(repository.getWithMeals(id));
-    }
+//    @GetMapping("/{id}/meals")
+//    public ResponseEntity<Restaurant> getWithMeals(@PathVariable int id) {
+//        log.info("get restaurant {} with meals", id);
+//        return ResponseEntity.of(repository.getWithMeals(id));
+//    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
@@ -56,20 +56,20 @@ public class RestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{restId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int restId) {
         log.info("update {}", restaurant);
-        assureIdConsistent(restaurant, id);
+        assureIdConsistent(restaurant, restId);
         repository.save(restaurant);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{restId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void delete(@PathVariable int id) {
-        log.info("delete restaurant {}", id);
-        repository.delete(id);
+    public void delete(@PathVariable int restId) {
+        log.info("delete restaurant {}", restId);
+        repository.delete(restId);
     }
 }
