@@ -1,4 +1,4 @@
-package ru.javaops.topjava.config;
+package ru.topjava.config;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +51,7 @@ public class SecurityConfiguration {
                 .antMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/profile").anonymous()
                 .antMatchers("/api/**").authenticated()
+//                .and().formLogin()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();

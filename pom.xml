@@ -8,7 +8,7 @@
         <version>2.7.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ru.javaops</groupId>
+    <groupId>ru.topjava</groupId>
     <artifactId>topjava-boot</artifactId>
     <version>1.0</version>
     <name>TopJava Boot</name>

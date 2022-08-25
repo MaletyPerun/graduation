@@ -41,16 +41,16 @@ spring:
     cache-names: users
     caffeine.spec: maximumSize=5000,expireAfterAccess=60s
 
-  security:
-    user:
-      name: user
-      password: password
-      roles: USER
+#  security:
+#    user:
+#      name: user
+#      password: password
+#      roles: USER
 
 logging:
   level:
     root: WARN
-    ru.javaops.topjava: DEBUG
+    ru.topjava: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server.servlet:

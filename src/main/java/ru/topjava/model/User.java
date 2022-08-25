@@ -1,6 +1,7 @@
 package ru.topjava.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import ru.topjava.HasIdAndEmail;
+import ru.topjava.util.JsonDeserializers;
 import ru.topjava.util.validation.NoHtml;
 
 import javax.persistence.*;
@@ -41,6 +44,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Size(max = 256)
     // https://stackoverflow.com/a/12505165/548473
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonDeserialize(using = JsonDeserializers.PasswordDeserializer.class)
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
@@ -89,5 +93,10 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Override
     public String toString() {
         return "User:" + id + '[' + email + ']';
+    }
+
+
+    public void setEmail(String email) {
+        this.email = StringUtils.hasText(email) ? email.toLowerCase() : null;
     }
 }

@@ -5,7 +5,7 @@ import ru.topjava.model.Role;
 import ru.topjava.model.User;
 import ru.topjava.to.UserTo;
 
-import static ru.javaops.topjava.config.SecurityConfiguration.PASSWORD_ENCODER;
+import static ru.topjava.config.SecurityConfiguration.PASSWORD_ENCODER;
 
 @UtilityClass
 public class UserUtil {
