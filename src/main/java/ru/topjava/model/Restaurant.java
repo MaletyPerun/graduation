@@ -22,7 +22,7 @@ import java.util.List;
 //@ToString(callSuper = true, exclude = {"user"})
 public class Restaurant extends NamedEntity {
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address", nullable = false, unique = true)
     @NotBlank
     @Size(min = 2, max = 120)
     @NoHtml

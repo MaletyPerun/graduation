@@ -14,6 +14,8 @@ import ru.topjava.model.Restaurant;
 import ru.topjava.model.User;
 import ru.topjava.repository.RestaurantRepository;
 import ru.topjava.repository.UserRepository;
+import ru.topjava.service.RestaurantService;
+import ru.topjava.to.RestaurantTo;
 import ru.topjava.web.AuthUser;
 import ru.topjava.web.user.ProfileController;
 
@@ -33,12 +35,14 @@ public class RestaurantController {
 
     protected final RestaurantRepository repository;
 
+    protected final RestaurantService service;
+
     protected final UserRepository userRepository;
 
     @GetMapping
-    public List<Restaurant> getAll() {
+    public List<RestaurantTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get all restaurants");
-        return repository.getAll();
+        return service.getAll(authUser.getUser());
     }
 
     @GetMapping("/{restId}")
