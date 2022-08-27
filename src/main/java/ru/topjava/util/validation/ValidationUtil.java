@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 import ru.topjava.HasId;
+import ru.topjava.error.DataConflictException;
 import ru.topjava.error.IllegalRequestDataException;
 
 @UtilityClass
@@ -35,6 +36,12 @@ public class ValidationUtil {
             throw new IllegalRequestDataException("Entity with id=" + id + " not found");
         }
         return obj;
+    }
+
+    public static void inTime(boolean checkTime) {
+        if (checkTime) {
+            throw new DataConflictException("You can`t vote since 11:00 to 15:00");
+        }
     }
 
     //  https://stackoverflow.com/a/65442410/548473

@@ -6,10 +6,16 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.model.Restaurant;
+import ru.topjava.model.User;
 import ru.topjava.repository.RestaurantRepository;
+import ru.topjava.repository.UserRepository;
+import ru.topjava.web.AuthUser;
+import ru.topjava.web.user.ProfileController;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -26,6 +32,8 @@ public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
     protected final RestaurantRepository repository;
+
+    protected final UserRepository userRepository;
 
     @GetMapping
     public List<Restaurant> getAll() {
@@ -58,7 +66,7 @@ public class RestaurantController {
 
     @PutMapping(value = "/{restId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int restId) {
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, restId);
@@ -67,7 +75,7 @@ public class RestaurantController {
 
     @DeleteMapping("/{restId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     public void delete(@PathVariable int restId) {
         log.info("delete restaurant {}", restId);
         repository.delete(restId);

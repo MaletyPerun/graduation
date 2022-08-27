@@ -25,7 +25,7 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 // TODO: cache only most requested data!
-@CacheConfig(cacheNames = "users")
+//@CacheConfig(cacheNames = "users")
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 
@@ -34,15 +34,9 @@ public class ProfileController extends AbstractUserController {
         return authUser.getUser();
     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal AuthUser authUser) {
-        super.delete(authUser.id());
-    }
-
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
@@ -55,25 +49,31 @@ public class ProfileController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
 
+
 //    @GetMapping("/with-meals")
 //    public ResponseEntity<User> getWithMeals(@AuthenticationPrincipal AuthUser authUser) {
 //        return super.getWithMeals(authUser.id());
 //    }
-
-    @PatchMapping("/{id}")
+    @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    @CacheEvict(allEntries = true)
-    public void choose(@PathVariable int id, @RequestParam boolean choose, @AuthenticationPrincipal AuthUser authUser) {
+//    @CacheEvict(allEntries = true)
+    public void choose(@RequestParam int id, @RequestParam boolean choose, @AuthenticationPrincipal AuthUser authUser) {
         // get restId
         log.info(choose ? "enable {}" : "disable {}", id);
         userService.prepareAndChoose(id, choose, authUser.getUser());
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@AuthenticationPrincipal AuthUser authUser) {
+        super.delete(authUser.id());
     }
 }
