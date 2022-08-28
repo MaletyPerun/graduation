@@ -16,6 +16,6 @@ public class RestaurantService {
 
 
     public List<RestaurantTo> getAll(User user) {
-        return RestaurantUtil.getTos(repository.getAll(), user.getChoose());
+        return RestaurantUtil.getTos(repository.getAll(), user.getVoteIdRestaurant());
     }
 }

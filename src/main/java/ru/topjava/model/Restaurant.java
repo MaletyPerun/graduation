@@ -26,6 +26,7 @@ public class Restaurant extends NamedEntity {
     @NotBlank
     @Size(min = 2, max = 120)
     @NoHtml
+    // TODO: 28/08/2022 разобраться в необходимости аннотации NoHtml
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)

@@ -19,15 +19,15 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void prepareAndChoose(int restId, boolean choose, User user) {
+    public void prepareAndChoose(int restId, boolean voteIdRestaurant, User user) {
         restaurantRepository.getExisted(restId);
         LocalTime time = LocalTime.now();
 //        check 11:00 - 15:00
         inTime(Util.isBetweenHalfOpen(time));
-        if (choose) {
-            user.setChoose(restId);
+        if (voteIdRestaurant) {
+            user.setVoteIdRestaurant(restId);
         } else {
-            user.setChoose(0);
+            user.setVoteIdRestaurant(0);
         }
         userRepository.save(user);
     }

@@ -25,7 +25,6 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 @AllArgsConstructor
 public class MealController {
 
-    // TODO: 28/08/2022 проверить все метода контроллера
     // TODO: 28/08/2022 использовать hasExisted на проверку
     static final String REST_URL = "/api/restaurants/{restId}/meals";
 
@@ -54,12 +53,12 @@ public class MealController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Meal> create(@PathVariable int restId, @Valid @RequestBody Meal meal) {
-        Restaurant restaurant = service.getRestaurant(restId);
-        log.info("create {} of restaurant {}", meal, restaurant);
+//        Restaurant restaurant = service.getRestaurant(restId);
+        log.info("create {} of restaurant {}", meal, restId);
         checkNew(meal);
         Meal created = service.save(meal, restId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path("/api/restaurants/" + restId + "/meals/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
@@ -80,8 +79,6 @@ public class MealController {
         Meal meal = repository.checkBelong(restId, mealId);
         repository.delete(meal);
     }
-
-
 
 
 //    @GetMapping("/filter")

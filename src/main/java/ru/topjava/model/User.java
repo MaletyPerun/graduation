@@ -66,23 +66,23 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     private Set<Role> roles;
 
     @Column(name = "choose_rest_id", nullable = false, columnDefinition = "int default 0")
-    private Integer choose = 0;
+    private Integer voteIdRestaurant = 0;
 
     public User(User u) {
-        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.choose, u.roles);
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.voteIdRestaurant, u.roles);
     }
 
     public User(Integer id, String name, String email, String password, Role... roles) {
         this(id, name, email, password, true, new Date(), 0, Arrays.asList(roles));
     }
 
-    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, int choose, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, int voteIdRestaurant, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
         this.registered = registered;
-        this.choose = choose;
+        this.voteIdRestaurant = voteIdRestaurant;
         setRoles(roles);
     }
 

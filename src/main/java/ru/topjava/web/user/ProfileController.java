@@ -34,7 +34,7 @@ public class ProfileController extends AbstractUserController {
         return authUser.getUser();
     }
 
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
 //    @CacheEvict(allEntries = true)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
@@ -65,10 +65,10 @@ public class ProfileController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
 //    @CacheEvict(allEntries = true)
-    public void choose(@RequestParam int id, @RequestParam boolean choose, @AuthenticationPrincipal AuthUser authUser) {
+    public void choose(@RequestParam int id, @RequestParam boolean voteIdRestaurant, @AuthenticationPrincipal AuthUser authUser) {
         // get restId
-        log.info(choose ? "enable {}" : "disable {}", id);
-        userService.prepareAndChoose(id, choose, authUser.getUser());
+        log.info(voteIdRestaurant ? "vote" : "cancel vote", id);
+        userService.prepareAndChoose(id, voteIdRestaurant, authUser.getUser());
     }
 
     @DeleteMapping
