@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.model.Restaurant;
 import ru.topjava.repository.RestaurantRepository;
-import ru.topjava.repository.UserRepository;
 import ru.topjava.service.RestaurantService;
 import ru.topjava.to.RestaurantTo;
 import ru.topjava.web.AuthUser;
@@ -33,19 +32,10 @@ public class RestaurantController {
 
     protected final RestaurantService service;
 
-    protected final UserRepository userRepository;
-
-//    @Autowired
-//    private UniqueAddressValidator addressValidator;
-//
-//    @InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.addValidators(addressValidator);
-//    }
-
     @GetMapping
     public List<RestaurantTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get all restaurants");
+//        for with chosen restaurant
         return service.getAll(authUser.getUser());
     }
 

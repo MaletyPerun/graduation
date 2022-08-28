@@ -15,11 +15,13 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
     @Query("SELECT r FROM Restaurant r ORDER BY r.name")
     List<Restaurant> getAll();
-//
+
+    //
 //    @Query("SELECT m FROM Meal m JOIN FETCH m.user WHERE m.id = :id and m.user.id = :userId")
 //    Optional<Meal> getWithUser(int id, int userId);
 //
 //
+//   https://stackoverflow.com/a/46013654/548473
     @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.meals WHERE r.id = :restId")
     Optional<Restaurant> getWithMeals(int restId);

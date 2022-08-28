@@ -26,6 +26,7 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 public class MealController {
 
     // TODO: 28/08/2022 проверить все метода контроллера
+    // TODO: 28/08/2022 использовать hasExisted на проверку
     static final String REST_URL = "/api/restaurants/{restId}/meals";
 
     private final MealRepository repository;
