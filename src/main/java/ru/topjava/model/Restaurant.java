@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.topjava.HasIdAndEmail;
+import ru.topjava.HasIdAndPlace;
 import ru.topjava.util.validation.NoHtml;
 
 import javax.persistence.*;
@@ -15,14 +17,14 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "restaurant")
+@Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "address"}, name = "restaurant_unique_name_address_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@ToString(callSuper = true, exclude = {"user"})
-public class Restaurant extends NamedEntity {
+public class Restaurant extends NamedEntity implements HasIdAndPlace {
 
-    @Column(name = "address", nullable = false, unique = true)
+    @Column(name = "address", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
     @NoHtml

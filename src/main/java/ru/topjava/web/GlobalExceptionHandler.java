@@ -2,6 +2,7 @@ package ru.topjava.web;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.jdbc.JdbcBatchUpdateException;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import ru.topjava.error.DataConflictException;
 import ru.topjava.util.validation.ValidationUtil;
 
 import javax.persistence.EntityNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.stream.Collectors;
 

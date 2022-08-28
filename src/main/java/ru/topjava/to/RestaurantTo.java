@@ -2,10 +2,11 @@ package ru.topjava.to;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import ru.topjava.HasIdAndPlace;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class RestaurantTo extends NamedTo {
+public class RestaurantTo extends NamedTo implements HasIdAndPlace {
 
     String address;
 

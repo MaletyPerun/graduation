@@ -24,17 +24,19 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 @Slf4j
 @AllArgsConstructor
 public class MealController {
+
+    // TODO: 28/08/2022 проверить все метода контроллера
     static final String REST_URL = "/api/restaurants/{restId}/meals";
 
     private final MealRepository repository;
     private final MealService service;
 
-    @GetMapping
-    public List<Meal> getAll(@PathVariable int restId) {
-        Restaurant restaurant = service.getRestaurant(restId);
-        log.info("get all meals of restaurant {}", restaurant);
-        return repository.getAll(restId);
-    }
+//    @GetMapping
+//    public List<Meal> getAll(@PathVariable int restId) {
+//        Restaurant restaurant = service.getRestaurant(restId);
+//        log.info("get all meals of restaurant {}", restaurant);
+//        return repository.getAll(restId);
+//    }
 
     //    @GetMapping
 //    public List<MealTo> getAll(@AuthenticationPrincipal AuthUser authUser) {

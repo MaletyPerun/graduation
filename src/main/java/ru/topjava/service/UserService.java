@@ -1,17 +1,13 @@
 package ru.topjava.service;
 
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.topjava.model.Restaurant;
 import ru.topjava.model.User;
 import ru.topjava.repository.RestaurantRepository;
 import ru.topjava.repository.UserRepository;
 import ru.topjava.util.Util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static ru.topjava.util.validation.ValidationUtil.inTime;
