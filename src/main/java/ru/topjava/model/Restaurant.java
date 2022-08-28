@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import ru.topjava.util.validation.NoHtml;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,8 +24,6 @@ public class Restaurant extends NamedEntity {
     @Column(name = "address", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
-    @NoHtml
-    // TODO: 28/08/2022 разобраться в необходимости аннотации NoHtml
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)

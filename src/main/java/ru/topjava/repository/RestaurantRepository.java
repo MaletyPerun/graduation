@@ -3,9 +3,7 @@ package ru.topjava.repository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import ru.topjava.model.Meal;
 import ru.topjava.model.Restaurant;
-import ru.topjava.model.User;
 
 import java.util.List;
 import java.util.Optional;

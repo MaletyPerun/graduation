@@ -14,7 +14,6 @@ import ru.topjava.service.MealService;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 import static ru.topjava.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.topjava.util.validation.ValidationUtil.checkNew;
@@ -31,19 +30,6 @@ public class MealController {
     private final MealRepository repository;
     private final MealService service;
 
-//    @GetMapping
-//    public List<Meal> getAll(@PathVariable int restId) {
-//        Restaurant restaurant = service.getRestaurant(restId);
-//        log.info("get all meals of restaurant {}", restaurant);
-//        return repository.getAll(restId);
-//    }
-
-    //    @GetMapping
-//    public List<MealTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
-//        log.info("getAll for user {}", authUser.id());
-//        return MealsUtil.getTos(repository.getAll(authUser.id()), authUser.getUser().getCaloriesPerDay());
-//    }
-
     @GetMapping("/{mealId}")
     public ResponseEntity<Meal> get(@PathVariable int restId, @PathVariable int mealId) {
         Restaurant restaurant = service.getRestaurant(restId);
@@ -53,7 +39,6 @@ public class MealController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Meal> create(@PathVariable int restId, @Valid @RequestBody Meal meal) {
-//        Restaurant restaurant = service.getRestaurant(restId);
         log.info("create {} of restaurant {}", meal, restId);
         checkNew(meal);
         Meal created = service.save(meal, restId);
@@ -79,18 +64,4 @@ public class MealController {
         Meal meal = repository.checkBelong(restId, mealId);
         repository.delete(meal);
     }
-
-
-//    @GetMapping("/filter")
-//    public List<MealTo> getBetween(@AuthenticationPrincipal AuthUser authUser,
-//                                   @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-//                                   @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
-//                                   @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-//                                   @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
-//
-//        int userId = authUser.id();
-//        log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
-//        List<Meal> mealsDateFiltered = repository.getBetweenHalfOpen(atStartOfDayOrMin(startDate), atStartOfNextDayOrMax(endDate), userId);
-//        return MealsUtil.getFilteredTos(mealsDateFiltered, authUser.getUser().getCaloriesPerDay(), startTime, endTime);
-//    }
 }

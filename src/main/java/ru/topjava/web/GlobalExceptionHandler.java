@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,18 +18,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.topjava.error.AppException;
 import ru.topjava.error.DataConflictException;
-import ru.topjava.error.ErrorInfo;
-import ru.topjava.error.ErrorType;
 import ru.topjava.util.validation.ValidationUtil;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
-import static ru.topjava.error.ErrorType.DATA_ERROR;
-import static ru.topjava.error.ErrorType.VALIDATION_ERROR;
 
 @RestControllerAdvice
 @AllArgsConstructor

@@ -2,7 +2,6 @@ package ru.topjava.to;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import ru.topjava.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,7 +12,6 @@ public class RestaurantTo extends NamedTo {
 
     @NotBlank
     @Size(min = 2, max = 120)
-    @NoHtml
     String address;
 
     boolean chosen;
