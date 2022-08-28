@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import ru.topjava.HasIdAndEmail;
-import ru.topjava.HasIdAndPlace;
 import ru.topjava.util.validation.NoHtml;
 
 import javax.persistence.*;
@@ -22,7 +20,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@ToString(callSuper = true, exclude = {"user"})
-public class Restaurant extends NamedEntity implements HasIdAndPlace {
+public class Restaurant extends NamedEntity {
 
     @Column(name = "address", nullable = false)
     @NotBlank
