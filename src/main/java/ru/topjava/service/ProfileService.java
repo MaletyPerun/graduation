@@ -15,7 +15,7 @@ import static ru.topjava.util.validation.ValidationUtil.inTime;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class ProfileService {
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
 

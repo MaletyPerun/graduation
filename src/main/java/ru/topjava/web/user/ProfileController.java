@@ -3,6 +3,7 @@ package ru.topjava.web.user;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +25,20 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-// TODO: cache only most requested data!
-//@CacheConfig(cacheNames = "users")
+@CacheConfig(cacheNames = "users")
+//because time to live is 1 min
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 
     @GetMapping
+    @Cacheable
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         return authUser.getUser();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-//    @CacheEvict(allEntries = true)
+    @CacheEvict(value = "users", allEntries = true)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
@@ -49,7 +51,7 @@ public class ProfileController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-//    @CacheEvict(allEntries = true)
+    @CacheEvict(value = "users", allEntries = true)
     public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
@@ -59,16 +61,16 @@ public class ProfileController extends AbstractUserController {
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-//    @CacheEvict(allEntries = true)
-    public void choose(@RequestParam int id, @RequestParam boolean voteIdRestaurant, @AuthenticationPrincipal AuthUser authUser) {
+    @CacheEvict(value = "users", allEntries = true)
+    public void choose(@RequestParam int restId, @RequestParam boolean voteIdRestaurant, @AuthenticationPrincipal AuthUser authUser) {
         // get restId
-        log.info(voteIdRestaurant ? "vote" : "cancel vote", id);
-        userService.prepareAndVote(id, voteIdRestaurant, authUser.getUser());
+        log.info(voteIdRestaurant ? "vote {}" : "cancel vote {}", restId);
+        service.prepareAndVote(restId, voteIdRestaurant, authUser.getUser());
     }
-    // TODO: 29/08/2022 проверить голосование за несуществущий ресторан
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }

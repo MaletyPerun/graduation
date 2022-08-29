@@ -2,13 +2,12 @@ package ru.topjava.web.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import ru.topjava.model.User;
 import ru.topjava.repository.UserRepository;
-import ru.topjava.service.UserService;
+import ru.topjava.service.ProfileService;
 import ru.topjava.util.UserUtil;
 
 @Slf4j
@@ -18,7 +17,7 @@ public abstract class AbstractUserController {
     protected UserRepository repository;
 
     @Autowired
-    protected UserService userService;
+    protected ProfileService service;
 
     @Autowired
     private UniqueMailValidator emailValidator;
@@ -33,7 +32,6 @@ public abstract class AbstractUserController {
         return ResponseEntity.of(repository.findById(id));
     }
 
-//    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);

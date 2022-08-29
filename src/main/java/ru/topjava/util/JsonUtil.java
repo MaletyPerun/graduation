@@ -18,6 +18,7 @@ public class JsonUtil {
         JsonUtil.mapper = mapper;
     }
 
+    // TODO: 29/08/2022 for what this methods?
     public static <T> List<T> readValues(String json, Class<T> clazz) {
         ObjectReader reader = mapper.readerFor(clazz);
         try {
