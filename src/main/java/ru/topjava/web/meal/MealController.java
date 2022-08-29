@@ -22,7 +22,6 @@ import static ru.topjava.util.validation.ValidationUtil.checkNew;
 @AllArgsConstructor
 public class MealController {
 
-    // TODO: 28/08/2022 использовать hasExisted на проверку
     static final String REST_URL = "/api/restaurants/{restId}/meals";
 
     private final MealService service;
@@ -30,7 +29,7 @@ public class MealController {
     @GetMapping("/{mealId}")
     public ResponseEntity<Meal> get(@PathVariable int restId, @PathVariable int mealId) {
         log.info("get meal {} of restaurant {}", mealId, restId);
-        return ResponseEntity.of(service.get(restId, mealId));
+        return ResponseEntity.ok(service.get(restId, mealId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

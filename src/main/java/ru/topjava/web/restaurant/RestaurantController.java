@@ -45,6 +45,7 @@ public class RestaurantController {
         return ResponseEntity.of(repository.findById(restId));
     }
 
+
     @GetMapping("/{restId}/meals")
     public ResponseEntity<Restaurant> getWithMeals(@PathVariable int restId) {
         log.info("get restaurant {} with meals", restId);

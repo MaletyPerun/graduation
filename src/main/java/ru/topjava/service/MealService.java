@@ -19,7 +19,7 @@ public class MealService {
     private final MealRepository mealRepository;
     private final RestaurantRepository restaurantRepository;
     @Transactional
-    public Optional<Meal> get(int restId, int mealId) {
+    public Meal get(int restId, int mealId) {
         return mealRepository.getBelong(restId, mealId);
     }
 
@@ -30,7 +30,6 @@ public class MealService {
         return mealRepository.save(meal);
     }
 
-    // TODO: 29/08/2022 проверить корректность метода PUT
     @Transactional
     public void update(int restId, Meal meal, int mealId) {
         assureIdConsistent(meal, mealId);

@@ -41,8 +41,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final ErrorAttributes errorAttributes;
 
-    // TODO: 29/08/2022 добавить обработку illegalExceptionHandler
-
     @ExceptionHandler(AppException.class)
     public ResponseEntity<?> appException(WebRequest request, AppException ex) {
         log.error("ApplicationException: {}", ex.getMessage());

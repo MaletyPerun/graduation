@@ -17,12 +17,10 @@ public interface MealRepository extends BaseRepository<Meal> {
     List<Meal> getAll(int restId);
 
 
-    @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:restId AND m.id=:mealId")
-    Optional<Meal> get(int restId, int mealId);
+    @Query("SELECT m FROM Meal m WHERE m.id =:mealId AND m.restaurant.id =:restId")
+    Meal get(int restId, int mealId);
 
-    default Optional <Meal> getBelong(int restId, int mealId) {
+    default Meal getBelong(int restId, int mealId) {
         return checkBelong(get(restId, mealId), restId, mealId);
     }
-
-    // TODO: 29/08/2022 проверить пригодность еды
 }

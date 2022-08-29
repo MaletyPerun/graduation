@@ -14,8 +14,6 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     @Query("SELECT r FROM Restaurant r ORDER BY r.name")
     List<Restaurant> getAll();
 
-    // TODO: 29/08/2022 проверить на сортировку
-
     //
 //    @Query("SELECT m FROM Meal m JOIN FETCH m.user WHERE m.id = :id and m.user.id = :userId")
 //    Optional<Meal> getWithUser(int id, int userId);

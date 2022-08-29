@@ -45,7 +45,6 @@ public class SecurityConfiguration {
         };
     }
 
-    // TODO: 28/08/2022 установить ограничения обычного пользователя
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
