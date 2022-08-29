@@ -63,8 +63,9 @@ public class ProfileController extends AbstractUserController {
     public void choose(@RequestParam int id, @RequestParam boolean voteIdRestaurant, @AuthenticationPrincipal AuthUser authUser) {
         // get restId
         log.info(voteIdRestaurant ? "vote" : "cancel vote", id);
-        userService.prepareAndChoose(id, voteIdRestaurant, authUser.getUser());
+        userService.prepareAndVote(id, voteIdRestaurant, authUser.getUser());
     }
+    // TODO: 29/08/2022 проверить голосование за несуществущий ресторан
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

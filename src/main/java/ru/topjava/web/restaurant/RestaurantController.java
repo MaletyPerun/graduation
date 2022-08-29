@@ -76,6 +76,6 @@ public class RestaurantController {
 //    @CacheEvict(allEntries = true)
     public void delete(@PathVariable int restId) {
         log.info("delete restaurant {}", restId);
-        repository.delete(restId);
+        repository.deleteExisted(restId);
     }
 }

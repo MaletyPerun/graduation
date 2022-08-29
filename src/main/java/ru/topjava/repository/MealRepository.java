@@ -8,6 +8,8 @@ import ru.topjava.model.Meal;
 import java.util.List;
 import java.util.Optional;
 
+import static ru.topjava.util.validation.ValidationUtil.checkBelong;
+
 @Transactional(readOnly = true)
 public interface MealRepository extends BaseRepository<Meal> {
 
@@ -18,8 +20,9 @@ public interface MealRepository extends BaseRepository<Meal> {
     @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:restId AND m.id=:mealId")
     Optional<Meal> get(int restId, int mealId);
 
-    default Meal checkBelong(int restId, int mealId) {
-        return get(restId, mealId).orElseThrow(
-                () -> new DataConflictException("Meal id=" + mealId + " doesn't belong to Restaurant id=" + restId));
+    default Optional <Meal> getBelong(int restId, int mealId) {
+        return checkBelong(get(restId, mealId), restId, mealId);
     }
+
+    // TODO: 29/08/2022 проверить пригодность еды
 }

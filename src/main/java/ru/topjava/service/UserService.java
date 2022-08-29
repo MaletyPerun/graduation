@@ -3,6 +3,7 @@ package ru.topjava.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.topjava.error.IllegalRequestDataException;
 import ru.topjava.model.User;
 import ru.topjava.repository.RestaurantRepository;
 import ru.topjava.repository.UserRepository;
@@ -19,16 +20,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void prepareAndChoose(int restId, boolean voteIdRestaurant, User user) {
-        restaurantRepository.getExisted(restId);
+    public void prepareAndVote(int restId, boolean voteIdRestaurant, User user) {
+        if (!restaurantRepository.existsById(restId)) {
+            throw new IllegalRequestDataException("Entity with id=" + restId + " not found");
+        }
         LocalTime time = LocalTime.now();
 //        check 11:00 - 15:00
         inTime(Util.isBetweenHalfOpen(time));
-        if (voteIdRestaurant) {
-            user.setVoteIdRestaurant(restId);
-        } else {
-            user.setVoteIdRestaurant(0);
-        }
+        user.setVoteIdRestaurant(voteIdRestaurant ? restId : 0);
         userRepository.save(user);
     }
 }

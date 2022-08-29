@@ -38,6 +38,13 @@ public class ValidationUtil {
         return obj;
     }
 
+    public static <T> T checkBelong(T obj, int restId, int mealId) {
+        if (obj == null) {
+            throw new IllegalRequestDataException("Meal id=" + mealId + " doesn't belong to Restaurant id=" + restId);
+        }
+        return obj;
+    }
+
     public static void inTime(boolean checkTime) {
         if (checkTime) {
             throw new DataConflictException("You can`t vote since 11:00 to 15:00");
