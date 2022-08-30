@@ -2,6 +2,7 @@ package ru.topjava.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 import ru.topjava.util.validation.NoHtml;
 
 import javax.persistence.*;
@@ -14,10 +15,11 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@ToString(callSuper = true, exclude = {"user"})
+//@ToString(callSuper = true, exclude = {"restaurant"})
 public class Meal extends BaseEntity {
 
     @Column(name = "price", nullable = false)
+    @Range(min = 10)
     @NotNull
     private Integer price;
 
@@ -32,10 +34,9 @@ public class Meal extends BaseEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
-    public Meal(Integer id, Integer price, String description, Restaurant restaurant) {
+    public Meal(Integer id, Integer price, String description) {
         super(id);
         this.price = price;
         this.description = description;
-        this.restaurant = restaurant;
     }
 }

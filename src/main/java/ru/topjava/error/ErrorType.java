@@ -5,14 +5,11 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorType {
-    DATA_ERROR("error.dataError", HttpStatus.CONFLICT),
-    VALIDATION_ERROR("error.validationError", HttpStatus.UNPROCESSABLE_ENTITY);
-
-    private final String errorCode;
+    DATA_ERROR(HttpStatus.CONFLICT),
+    VALIDATION_ERROR(HttpStatus.UNPROCESSABLE_ENTITY);
     private final HttpStatus status;
 
-    ErrorType(String errorCode, HttpStatus status) {
-        this.errorCode = errorCode;
+    ErrorType(HttpStatus status) {
         this.status = status;
     }
 }
