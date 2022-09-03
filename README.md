@@ -2,6 +2,8 @@ Java Enterprise Online Project
 ===============================
 Выпускной проект онлайн стажировки на TopJava 
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/efbd4c845aa7424e86dc4d14d1124c57)](https://www.codacy.com/gh/MaletyPerun/graduation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MaletyPerun/graduation&amp;utm_campaign=Badge_Grade)
+
 Ссылка на ТЗ: https://github.com/JavaWebinar/topjava/blob/doc/doc/graduation.md#technical-requirement
 
 Разработано Spring Enterprise приложение c авторизацией и правами доступа
