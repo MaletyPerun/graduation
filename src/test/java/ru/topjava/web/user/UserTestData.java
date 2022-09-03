@@ -12,14 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password");
-    public static MatcherFactory.Matcher<User> USER_WITH_MEALS_MATCHER =
-            MatcherFactory.usingAssertions(User.class,
-                    //     No need use ignoringAllOverriddenEquals, see https://assertj.github.io/doc/#breaking-changes
-                    (a, e) -> assertThat(a).usingRecursiveComparison()
-                            .ignoringFields("registered", "meals.user", "password").isEqualTo(e),
-                    (a, e) -> {
-                        throw new UnsupportedOperationException();
-                    });
 
     public static final int USER_ID = 1;
     public static final int ADMIN_ID = 2;

@@ -20,9 +20,6 @@ public class MealTestData {
 
     public static final Meal meal1 = new Meal(MEAL_ID1, 500, "Завтрак");
     public static final Meal meal2 = new Meal(MEAL_ID2, 600, "Обед");
-    public static final Meal meal3 = new Meal(MEAL_ID3, 700, "Ужин");
-    public static final Meal meal4 = new Meal(MEAL_ID4, 800, "Завтрак");
-    public static final Meal meal5 = new Meal(MEAL_ID5, 900, "Обед");
     public static final Meal meal6 = new Meal(MEAL_ID6, 400, "Ужин");
 
     public static Meal getNew() {

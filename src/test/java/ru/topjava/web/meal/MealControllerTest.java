@@ -6,12 +6,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.model.Meal;
 import ru.topjava.repository.MealRepository;
 import ru.topjava.util.JsonUtil;
 import ru.topjava.web.AbstractControllerTest;
-
-import java.util.function.BooleanSupplier;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.topjava.web.GlobalExceptionHandler.EXCEPTION_DUPLICATE_MEAL;
 import static ru.topjava.web.meal.MealTestData.*;
 import static ru.topjava.web.restaurant.RestaurantTestData.REST_ID1;
-import static ru.topjava.web.restaurant.RestaurantTestData.rest1;
 import static ru.topjava.web.user.UserTestData.ADMIN_MAIL;
 import static ru.topjava.web.user.UserTestData.USER_MAIL;
 
@@ -119,31 +118,8 @@ class MealControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updateMeal)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        MEAL_MATCHER.assertMatch(repository.get(MEAL_ID1), updateMeal);
+        MEAL_MATCHER.assertMatch(repository.getExisted(MEAL_ID1), updateMeal);
     }
-//    void create() throws Exception {
-//        Meal newMeal = getNew();
-//        ResultActions actions = perform(MockMvcRequestBuilders.post(API_URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(JsonUtil.writeValue(newMeal)))
-//                .andDo(print())
-//                .andExpect(status().isCreated());
-//
-//        Meal created = MEAL_MATCHER.readFromJson(actions);
-//        int newId = created.id();
-//        newMeal.setId(newId);
-//        MEAL_MATCHER.assertMatch(created, newMeal);
-//        MEAL_MATCHER.assertMatch(repository.getBelong(REST_ID1, newId), newMeal);
-
-//    void update() throws Exception {
-//        Meal updated = getUpdated();
-//        perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(JsonUtil.writeValue(updated)))
-//                .andExpect(status().isNoContent());
-//
-//        MEAL_MATCHER.assertMatch(mealRepository.getExisted(MEAL1_ID), updated);
-//    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -157,17 +133,30 @@ class MealControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-//    @Test
-//    @WithUserDetails(value = ADMIN_MAIL)
-//    void updateDuplicate() throws Exception {
-//        Meal updateMeal = new Meal(MEAL_ID1, meal2.getPrice(), meal2.getDescription());
-//        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(JsonUtil.writeValue(updateMeal)))
-//                .andDo(print())
-//                .andExpect(status().isConflict())
-//                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_MEAL)));
-//    }
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    @Transactional(propagation = Propagation.NEVER)
+    void updateDuplicate() throws Exception {
+        Meal updateMeal = new Meal(MEAL_ID1, meal6.getPrice(), meal6.getDescription());
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updateMeal)))
+                .andDo(print())
+                .andExpect(status().isConflict())
+                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_MEAL)));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    @Transactional(propagation = Propagation.NEVER)
+    void updateNotBelong() throws Exception {
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(meal2)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString("doesn't belong to Restaurant")));
+    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)

@@ -25,7 +25,7 @@ public class ProfileService {
             throw new IllegalRequestDataException("Entity with id=" + restId + " not found");
         }
         LocalTime time = LocalTime.now();
-//        check 11:00 - 15:00
+//        cannot vote 11:00 - 15:00
         inTime(Util.isBetweenHalfOpen(time));
         user.setVoteIdRestaurant(voteIdRestaurant ? restId : 0);
         userRepository.save(user);

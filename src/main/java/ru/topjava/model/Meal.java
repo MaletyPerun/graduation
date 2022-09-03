@@ -1,7 +1,10 @@
 package ru.topjava.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import ru.topjava.util.validation.NoHtml;
 
@@ -11,11 +14,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "meal", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "price", "description"}, name = "meal_unique_restaurant_price_descrip_idx")})
+@Table(name = "meal", uniqueConstraints = {@UniqueConstraint(columnNames = {"price", "description", "restaurant_id"}, name = "meal_unique_restaurant_price_descrip_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@ToString(callSuper = true, exclude = {"restaurant"})
 public class Meal extends BaseEntity {
 
     @Column(name = "price", nullable = false)

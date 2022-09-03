@@ -11,7 +11,10 @@ import ru.topjava.repository.UserRepository;
 import ru.topjava.to.UserTo;
 import ru.topjava.util.JsonUtil;
 import ru.topjava.util.UserUtil;
+import ru.topjava.util.Util;
 import ru.topjava.web.AbstractControllerTest;
+
+import java.time.LocalTime;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -56,7 +59,7 @@ class ProfileControllerTest extends AbstractControllerTest {
         User newUser = UserUtil.createNewFromTo(newTo);
         ResultActions action = perform(MockMvcRequestBuilders.post(API_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newTo)))
+                .content(jsonWithPassword(newUser, "newPass")))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -70,13 +73,15 @@ class ProfileControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void update() throws Exception {
-        UserTo updatedTo = new UserTo(null, "newName", USER_MAIL, "newPassword");
-        perform(MockMvcRequestBuilders.put(API_URL).contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updatedTo)))
+        UserTo updateUserTo = new UserTo(USER_ID, "newName", "newemail@ya.ru", "newPassword");
+        User uapdateUser = UserUtil.createNewFromTo(updateUserTo);
+        perform(MockMvcRequestBuilders.put(API_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonWithPassword(uapdateUser, "newPassword")))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), UserUtil.updateFromTo(new User(user), updatedTo));
+        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), UserUtil.updateFromTo(new User(user), updateUserTo));
     }
 
     @Test
@@ -113,31 +118,46 @@ class ProfileControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void vote() throws Exception {
-        user.setVoteIdRestaurant(1);
-        perform(MockMvcRequestBuilders.patch(API_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(user)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
+    void voteAndRevoteInTime() throws Exception {
+        LocalTime time = LocalTime.now();
+        if (!Util.isBetweenHalfOpen(time)) {
+            user.setVoteIdRestaurant(1);
+            perform(MockMvcRequestBuilders.patch(API_URL)
+                    .param("restId", "1")
+                    .param("voteIdRestaurant", "true")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
-    }
+            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
 
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void revote() throws Exception {
+            user.setVoteIdRestaurant(0);
+            perform(MockMvcRequestBuilders.patch(API_URL)
+                    .param("restId", "1")
+                    .param("voteIdRestaurant", "false")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isNoContent());
 
+            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
+        } else {
+            perform(MockMvcRequestBuilders.patch(API_URL)
+                    .param("restId", "1")
+                    .param("voteIdRestaurant", "true")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isConflict())
+                    .andExpect(content().string(containsString("You can`t vote since 11:00 to 15:00")));
+        }
     }
 
     @Test
     void voteForbidden() throws Exception {
-
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void voteInTime() throws Exception {
-
+        perform(MockMvcRequestBuilders.patch(API_URL)
+                .param("restId", "1")
+                .param("voteIdRestaurant", "true")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 }

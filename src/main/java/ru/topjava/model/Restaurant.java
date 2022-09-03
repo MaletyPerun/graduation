@@ -18,8 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@ToString(callSuper = true, exclude = {"user"})
-// TODO: 30/08/2022 что это?
 public class Restaurant extends NamedEntity {
 
     @Column(name = "address", nullable = false)

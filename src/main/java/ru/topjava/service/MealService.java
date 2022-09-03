@@ -4,11 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.model.Meal;
-import ru.topjava.model.Restaurant;
 import ru.topjava.repository.MealRepository;
 import ru.topjava.repository.RestaurantRepository;
-
-import java.util.Optional;
 
 import static ru.topjava.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.topjava.util.validation.ValidationUtil.checkNew;
@@ -33,8 +30,8 @@ public class MealService {
     @Transactional
     public void update(int restId, Meal meal, int mealId) {
         assureIdConsistent(meal, mealId);
-        restaurantRepository.getExisted(restId);
         mealRepository.getBelong(restId, mealId);
+        meal.setRestaurant(restaurantRepository.getExisted(restId));
         mealRepository.save(meal);
     }
 
