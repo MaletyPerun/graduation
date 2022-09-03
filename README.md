@@ -1,5 +1,8 @@
 Java Enterprise Online Project
 ===============================
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/453d081470bb44d1afd5fe9585483662)](https://app.codacy.com/gh/MaletyPerun/graduation?utm_source=github.com&utm_medium=referral&utm_content=MaletyPerun/graduation&utm_campaign=Badge_Grade_Settings)
+
 Выпускной проект онлайн стажировки на TopJava 
 
 Ссылка на ТЗ: https://github.com/JavaWebinar/topjava/blob/doc/doc/graduation.md#technical-requirement
