@@ -17,10 +17,7 @@ public class RestaurantUtil {
 
     public static List<RestaurantTo> getTos(Collection<Restaurant> restaurants, int restId) {
         return restaurants.stream()
-                .map(restaurant -> {
-                    assert restaurant.getId() != null;
-                    return creatTo(restaurant, restaurant.getId().equals(restId));
-                })
+                .map(restaurant -> creatTo(restaurant, restaurant.getId() == (restId)))
                 .collect(Collectors.toList());
     }
 }
