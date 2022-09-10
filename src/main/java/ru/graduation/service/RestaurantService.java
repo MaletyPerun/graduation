@@ -19,9 +19,9 @@ import static ru.graduation.util.validation.ValidationUtil.checkNew;
 public class RestaurantService {
     private final RestaurantRepository repository;
 
-    public List<RestaurantTo> getAll(User user) {
-        return RestaurantUtil.getTos(repository.getAll(), user.getVoteIdRestaurant());
-    }
+//    public List<RestaurantTo> getAll(User user) {
+//        return RestaurantUtil.getTos(repository.getAll(), user.getVoteRestaurantId().getId());
+//    }
 
     public Optional<Restaurant> get(int restId) {
         return repository.findById(restId);
@@ -32,12 +32,10 @@ public class RestaurantService {
     }
 
     public Restaurant create(Restaurant restaurant) {
-        checkNew(restaurant);
         return repository.save(restaurant);
     }
 
     public void update(Restaurant restaurant, int restId) {
-        assureIdConsistent(restaurant, restId);
         repository.save(restaurant);
     }
 

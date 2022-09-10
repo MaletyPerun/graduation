@@ -20,14 +20,14 @@ public class ProfileService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void prepareAndVote(int restId, boolean voteIdRestaurant, User user) {
+    public void prepareAndVote(int restId, boolean voteRestaurantId, User user) {
         if (!restaurantRepository.existsById(restId)) {
             throw new IllegalRequestDataException("Entity with id=" + restId + " not found");
         }
         LocalTime time = LocalTime.now();
 //        cannot vote 11:00 - 15:00
-        inTime(Util.isBetweenHalfOpen(time));
-        user.setVoteIdRestaurant(voteIdRestaurant ? restId : 0);
+//        inTime(Util.isBetweenHalfOpen(time));
+//        user.setVoteRestaurantId(voteRestaurantId ? restId : 0);
         userRepository.save(user);
     }
 }

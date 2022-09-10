@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class MealTo extends BaseTo {
+public class DishTo extends BaseTo {
 
     LocalDateTime dateTime;
 
@@ -17,7 +17,7 @@ public class MealTo extends BaseTo {
 
     boolean excess;
 
-    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public DishTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;

@@ -17,23 +17,23 @@ class ProfileServiceTest {
     private static final LocalTime OUTTIME = LocalTime.of(16, 0);
 
 
-    @Test
-    void prepareAndVoteStartTime() {
-        assertThrows(DataConflictException.class, () -> inTime(Util.isBetweenHalfOpen(STARTTIME)));
-    }
-
-    @Test
-    void prepareAndInTime() {
-        assertThrows(DataConflictException.class, () -> inTime(Util.isBetweenHalfOpen(INTIME)));
-    }
-
-    @Test
-    void prepareAndEndTime() {
-        inTime(Util.isBetweenHalfOpen(ENDTIME));
-    }
-
-    @Test
-    void prepareAndOutTime() {
-        inTime(Util.isBetweenHalfOpen(OUTTIME));
-    }
+//    @Test
+//    void prepareAndVoteStartTime() {
+//        assertThrows(DataConflictException.class, () -> inTime(Util.isBetweenHalfOpen(STARTTIME)));
+//    }
+//
+//    @Test
+//    void prepareAndInTime() {
+//        assertThrows(DataConflictException.class, () -> inTime(Util.isBetweenHalfOpen(INTIME)));
+//    }
+//
+//    @Test
+//    void prepareAndEndTime() {
+//        inTime(Util.isBetweenHalfOpen(ENDTIME));
+//    }
+//
+//    @Test
+//    void prepareAndOutTime() {
+//        inTime(Util.isBetweenHalfOpen(OUTTIME));
+//    }
 }

@@ -11,7 +11,7 @@
     <groupId>ru.graduation</groupId>
     <artifactId>graduation-boot</artifactId>
     <version>1.0</version>
-    <name>TopJava Boot</name>
+    <name>Graduation</name>
     <description>Vote for restaurants application (based on TopJava with Spring Boot migration)</description>
 
     <properties>

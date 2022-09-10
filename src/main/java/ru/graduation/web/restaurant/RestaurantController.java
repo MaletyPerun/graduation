@@ -21,6 +21,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static ru.graduation.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.graduation.util.validation.ValidationUtil.checkNew;
+
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
@@ -31,13 +34,13 @@ public class RestaurantController {
 
     protected final RestaurantService service;
 
-    @GetMapping
-    @Cacheable
-    public List<RestaurantTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
-        log.info("get all restaurants");
-//        with chosen restaurant
-        return service.getAll(authUser.getUser());
-    }
+//    @GetMapping
+//    @Cacheable
+//    public List<RestaurantTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
+//        log.info("get all restaurants");
+////        with chosen restaurant
+//        return service.getAll(authUser.getUser());
+//    }
 
     @GetMapping("/{restId}")
     public ResponseEntity<Restaurant> get(@PathVariable int restId) {
@@ -45,10 +48,10 @@ public class RestaurantController {
         return ResponseEntity.of(service.get(restId));
     }
 
-    @GetMapping("/{restId}/meals")
+    @GetMapping("/{restId}/dishes")
     @Cacheable
     public ResponseEntity<Restaurant> getWithMeals(@PathVariable int restId) {
-        log.info("get restaurant {} with meals", restId);
+        log.info("get restaurant {} with dishes", restId);
         return ResponseEntity.of(service.getWithMeals(restId));
     }
 
@@ -57,6 +60,7 @@ public class RestaurantController {
     @Transactional
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
+        checkNew(restaurant);
         Restaurant created = service.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -69,6 +73,7 @@ public class RestaurantController {
     @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int restId) {
+        assureIdConsistent(restaurant, restId);
         log.info("update {}", restaurant);
         service.update(restaurant, restId);
     }

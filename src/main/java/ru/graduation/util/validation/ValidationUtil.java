@@ -7,6 +7,8 @@ import ru.graduation.HasId;
 import ru.graduation.error.DataConflictException;
 import ru.graduation.error.IllegalRequestDataException;
 
+import java.time.LocalDate;
+
 @UtilityClass
 public class ValidationUtil {
 
@@ -45,9 +47,16 @@ public class ValidationUtil {
         return obj;
     }
 
+    public static <T> T checkBelong(T obj, int userId, LocalDate localDate) {
+        if (obj == null) {
+            throw new IllegalRequestDataException("User id=" + userId + " doesn't vote on date " + localDate);
+        }
+        return obj;
+    }
+
     public static void inTime(boolean checkTime) {
         if (checkTime) {
-            throw new DataConflictException("You can`t vote since 11:00 to 15:00");
+            throw new DataConflictException("You can`t vote after 11:00");
         }
     }
 

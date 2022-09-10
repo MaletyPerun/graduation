@@ -116,40 +116,40 @@ class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_EMAIL)));
     }
 
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void voteAndRevoteInTime() throws Exception {
-        LocalTime time = LocalTime.now();
-        if (!Util.isBetweenHalfOpen(time)) {
-            user.setVoteIdRestaurant(1);
-            perform(MockMvcRequestBuilders.patch(API_URL)
-                    .param("restId", "1")
-                    .param("voteIdRestaurant", "true")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andDo(print())
-                    .andExpect(status().isNoContent());
-
-            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
-
-            user.setVoteIdRestaurant(0);
-            perform(MockMvcRequestBuilders.patch(API_URL)
-                    .param("restId", "1")
-                    .param("voteIdRestaurant", "false")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andDo(print())
-                    .andExpect(status().isNoContent());
-
-            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
-        } else {
-            perform(MockMvcRequestBuilders.patch(API_URL)
-                    .param("restId", "1")
-                    .param("voteIdRestaurant", "true")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andDo(print())
-                    .andExpect(status().isConflict())
-                    .andExpect(content().string(containsString("You can`t vote since 11:00 to 15:00")));
-        }
-    }
+//    @Test
+//    @WithUserDetails(value = USER_MAIL)
+//    void voteAndRevoteInTime() throws Exception {
+//        LocalTime time = LocalTime.now();
+//        if (!Util.isBetweenHalfOpen(time)) {
+//            user.setVoteIdRestaurant(1);
+//            perform(MockMvcRequestBuilders.patch(API_URL)
+//                    .param("restId", "1")
+//                    .param("voteIdRestaurant", "true")
+//                    .contentType(MediaType.APPLICATION_JSON))
+//                    .andDo(print())
+//                    .andExpect(status().isNoContent());
+//
+//            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
+//
+//            user.setVoteIdRestaurant(0);
+//            perform(MockMvcRequestBuilders.patch(API_URL)
+//                    .param("restId", "1")
+//                    .param("voteIdRestaurant", "false")
+//                    .contentType(MediaType.APPLICATION_JSON))
+//                    .andDo(print())
+//                    .andExpect(status().isNoContent());
+//
+//            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
+//        } else {
+//            perform(MockMvcRequestBuilders.patch(API_URL)
+//                    .param("restId", "1")
+//                    .param("voteIdRestaurant", "true")
+//                    .contentType(MediaType.APPLICATION_JSON))
+//                    .andDo(print())
+//                    .andExpect(status().isConflict())
+//                    .andExpect(content().string(containsString("You can`t vote since 11:00 to 15:00")));
+//        }
+//    }
 
     @Test
     void voteForbidden() throws Exception {
