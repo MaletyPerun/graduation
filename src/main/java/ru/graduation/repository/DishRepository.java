@@ -11,13 +11,10 @@ import static ru.graduation.util.validation.ValidationUtil.checkBelong;
 @Transactional(readOnly = true)
 public interface DishRepository extends BaseRepository<Dish> {
 
-//    @Query("SELECT m FROM Dish m WHERE m.restaurant.id=:restId ORDER BY m.price DESC")
-//    List<Dish> getAll(int restId);
+    @Query("SELECT m FROM Dish m WHERE m.id =:dishId AND m.restaurant.id =:restId")
+    Dish get(int restId, int dishId);
 
-    @Query("SELECT m FROM Dish m WHERE m.id =:mealId AND m.restaurant.id =:restId")
-    Dish get(int restId, int mealId);
-
-    default Dish getBelong(int restId, int mealId) {
-        return checkBelong(get(restId, mealId), restId, mealId);
+    default Dish getBelong(int restId, int dishId) {
+        return checkBelong(get(restId, dishId), restId, dishId);
     }
 }

@@ -17,11 +17,14 @@ import ru.graduation.service.DishService;
 import javax.validation.Valid;
 import java.net.URI;
 
+import static ru.graduation.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.graduation.util.validation.ValidationUtil.checkNew;
+
 @RestController
 @RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-@CacheConfig(cacheNames = "meals")
+//@CacheConfig(cacheNames = "dishes")
 public class DishController {
 
     static final String REST_URL = "/api/restaurants/{restId}/dishes";
@@ -29,16 +32,17 @@ public class DishController {
     private final DishService service;
 
     @GetMapping("/{dishId}")
-    @Cacheable
+//    @Cacheable
     public ResponseEntity<Dish> get(@PathVariable int restId, @PathVariable int dishId) {
         log.info("get meal {} of restaurant {}", dishId, restId);
         return ResponseEntity.ok(service.get(restId, dishId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     @Transactional
     public ResponseEntity<Dish> create(@PathVariable int restId, @Valid @RequestBody Dish dish) {
+        checkNew(dish);
         log.info("create {} of restaurant {}", dish, restId);
         Dish created = service.create(restId, dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -49,16 +53,17 @@ public class DishController {
 
     @PutMapping(value = "/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     @Transactional
     public void update(@PathVariable int restId, @Valid @RequestBody Dish dish, @PathVariable int dishId) {
+        assureIdConsistent(dish, dishId);
         log.info("update {} for restaurant {}", dish, restId);
         service.update(restId, dish, dishId);
     }
 
     @DeleteMapping("/{dishId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     public void delete(@PathVariable int restId, @PathVariable int dishId) {
         log.info("delete meal {} of Restaurant {}", dishId, restId);
         service.delete(dishId);

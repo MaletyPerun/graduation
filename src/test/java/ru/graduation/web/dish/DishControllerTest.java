@@ -78,7 +78,7 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        Dish newDish = new Dish(null, null, null);
+        Dish newDish = new Dish(null, null, null, null);
         perform(MockMvcRequestBuilders.post(API_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
@@ -89,7 +89,7 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        Dish newDish = new Dish(null, DISH_1.getPrice(), DISH_1.getDescription());
+        Dish newDish = new Dish(null, DISH_1.getPrice(), DISH_1.getDescription(), DISH_1.getRegistered());
         perform(MockMvcRequestBuilders.post(API_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
@@ -137,7 +137,7 @@ class DishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicate() throws Exception {
-        Dish updateDish = new Dish(MEAL_ID1, DISH_6.getPrice(), DISH_6.getDescription());
+        Dish updateDish = new Dish(MEAL_ID1, DISH_6.getPrice(), DISH_6.getDescription(), DISH_6.getRegistered());
         perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updateDish)))

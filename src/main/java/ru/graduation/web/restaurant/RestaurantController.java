@@ -32,6 +32,8 @@ import static ru.graduation.util.validation.ValidationUtil.checkNew;
 public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
+    // TODO: 10/09/2022 разные запросы на ресторан и ресторан с едой
+
     protected final RestaurantService service;
 
 //    @GetMapping

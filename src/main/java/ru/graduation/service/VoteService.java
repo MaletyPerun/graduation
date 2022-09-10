@@ -31,7 +31,7 @@ public class VoteService {
     public void update(AuthUser authUser, int restId, Vote vote) {
         LocalDateTime revote = LocalDateTime.now();
         voteRepository.getBelong(authUser.getUser().getId(), revote.toLocalDate());
-        inTime(revote.toLocalTime().isBefore(END_TIME_TO_REVOTE));
+        inTime(revote.toLocalTime().isAfter(END_TIME_TO_REVOTE));
         voteRepository.save(prepareToSave(vote, authUser.getUser(), restId));
     }
 

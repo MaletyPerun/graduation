@@ -16,27 +16,25 @@ public class DishService {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
     @Transactional
-    public Dish get(int restId, int mealId) {
-        return dishRepository.getBelong(restId, mealId);
+    public Dish get(int restId, int dishId) {
+        return dishRepository.getBelong(restId, dishId);
     }
 
     @Transactional
     public Dish create(int restId, Dish dish) {
-        checkNew(dish);
         dish.setRestaurant(restaurantRepository.getExisted(restId));
         return dishRepository.save(dish);
     }
 
     @Transactional
-    public void update(int restId, Dish dish, int mealId) {
-        assureIdConsistent(dish, mealId);
-        dishRepository.getBelong(restId, mealId);
+    public void update(int restId, Dish dish, int dishId) {
+        dishRepository.getBelong(restId, dishId);
         dish.setRestaurant(restaurantRepository.getExisted(restId));
         dishRepository.save(dish);
     }
 
     @Transactional
-    public void delete(int mealId) {
-        dishRepository.deleteExisted(mealId);
+    public void delete(int dishId) {
+        dishRepository.deleteExisted(dishId);
     }
 }

@@ -56,7 +56,7 @@ public class ValidationUtil {
 
     public static void inTime(boolean checkTime) {
         if (checkTime) {
-            throw new DataConflictException("You can`t vote after 11:00");
+            throw new DataConflictException("You can`t revote after 11:00");
         }
     }
 
