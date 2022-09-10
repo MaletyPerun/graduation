@@ -33,11 +33,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     public static final String EXCEPTION_DUPLICATE_PLACE = "This restaurant already existed";
 
-    public static final String EXCEPTION_DUPLICATE_MEAL = "This meal already existed";
+    public static final String EXCEPTION_DUPLICATE_DISH = "This dish already existed";
+    public static final String EXCEPTION_DUPLICATE_VOTE = "This vote already existed";
 
     private static final Map<String, String> EXCEPTION_MAP = Map.of(
             "restaurant_unique_name_address_idx", EXCEPTION_DUPLICATE_PLACE,
-            "meal_unique_restaurant_price_descrip_idx", EXCEPTION_DUPLICATE_MEAL);
+            "dish_unique_restaurant_description_idx", EXCEPTION_DUPLICATE_DISH,
+            "vote_unique_date_user_idx", EXCEPTION_DUPLICATE_VOTE);
 
     private final ErrorAttributes errorAttributes;
 

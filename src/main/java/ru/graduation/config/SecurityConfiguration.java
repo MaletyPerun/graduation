@@ -54,6 +54,8 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST, "/api/restaurants/**").hasRole(Role.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/profile").anonymous()
                 .antMatchers("/api/profile/**").authenticated()
+                .antMatchers("/api/restaurants/**").authenticated()
+                .antMatchers("/api/vote/**").authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();

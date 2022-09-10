@@ -8,9 +8,15 @@ import ru.graduation.error.DataConflictException;
 import ru.graduation.error.IllegalRequestDataException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 
 @UtilityClass
 public class ValidationUtil {
+
+    private static final LocalTime END_TIME_TO_REVOTE = LocalTime.of(11, 0);
+
 
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
@@ -42,7 +48,7 @@ public class ValidationUtil {
 
     public static <T> T checkBelong(T obj, int restId, int mealId) {
         if (obj == null) {
-            throw new IllegalRequestDataException("Meal id=" + mealId + " doesn't belong to Restaurant id=" + restId);
+            throw new IllegalRequestDataException("Dish id=" + mealId + " doesn't belong to Restaurant id=" + restId);
         }
         return obj;
     }
@@ -54,8 +60,9 @@ public class ValidationUtil {
         return obj;
     }
 
-    public static void inTime(boolean checkTime) {
-        if (checkTime) {
+    public static void inTime(LocalDateTime checkTime) {
+        LocalTime time = checkTime.toLocalTime();
+        if (time.isAfter(END_TIME_TO_REVOTE)) {
             throw new DataConflictException("You can`t revote after 11:00");
         }
     }

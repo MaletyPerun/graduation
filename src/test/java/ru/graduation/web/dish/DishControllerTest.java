@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.graduation.web.GlobalExceptionHandler.EXCEPTION_DUPLICATE_MEAL;
-import static ru.graduation.web.dish.MealTestData.*;
+import static ru.graduation.web.GlobalExceptionHandler.EXCEPTION_DUPLICATE_DISH;
+import static ru.graduation.web.dish.DishTestData.*;
 import static ru.graduation.web.restaurant.RestaurantTestData.REST_ID1;
 import static ru.graduation.web.user.UserTestData.ADMIN_MAIL;
 import static ru.graduation.web.user.UserTestData.USER_MAIL;
@@ -37,7 +37,7 @@ class DishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MEAL_MATCHER.contentJson(DISH_1));
+                .andExpect(DISH_MATCHER.contentJson(DISH_1));
     }
 
     @Test
@@ -68,11 +68,11 @@ class DishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        Dish created = MEAL_MATCHER.readFromJson(actions);
+        Dish created = DISH_MATCHER.readFromJson(actions);
         int newId = created.id();
         newDish.setId(newId);
-        MEAL_MATCHER.assertMatch(created, newDish);
-        MEAL_MATCHER.assertMatch(repository.getBelong(REST_ID1, newId), newDish);
+        DISH_MATCHER.assertMatch(created, newDish);
+        DISH_MATCHER.assertMatch(repository.getBelong(REST_ID1, newId), newDish);
     }
 
     @Test
@@ -95,7 +95,7 @@ class DishControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newDish)))
                 .andDo(print())
                 .andExpect(status().isConflict())
-                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_MEAL)));
+                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_DISH)));
     }
 
     @Test
@@ -118,7 +118,7 @@ class DishControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        MEAL_MATCHER.assertMatch(repository.getExisted(MEAL_ID1), updateDish);
+        DISH_MATCHER.assertMatch(repository.getExisted(MEAL_ID1), updateDish);
     }
 
     @Test
@@ -143,7 +143,7 @@ class DishControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
                 .andExpect(status().isConflict())
-                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_MEAL)));
+                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_DISH)));
     }
 
     @Test

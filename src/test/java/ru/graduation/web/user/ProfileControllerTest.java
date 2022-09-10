@@ -11,10 +11,7 @@ import ru.graduation.repository.UserRepository;
 import ru.graduation.to.UserTo;
 import ru.graduation.util.JsonUtil;
 import ru.graduation.util.UserUtil;
-import ru.graduation.util.Util;
 import ru.graduation.web.AbstractControllerTest;
-
-import java.time.LocalTime;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -114,50 +111,5 @@ class ProfileControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_EMAIL)));
-    }
-
-//    @Test
-//    @WithUserDetails(value = USER_MAIL)
-//    void voteAndRevoteInTime() throws Exception {
-//        LocalTime time = LocalTime.now();
-//        if (!Util.isBetweenHalfOpen(time)) {
-//            user.setVoteIdRestaurant(1);
-//            perform(MockMvcRequestBuilders.patch(API_URL)
-//                    .param("restId", "1")
-//                    .param("voteIdRestaurant", "true")
-//                    .contentType(MediaType.APPLICATION_JSON))
-//                    .andDo(print())
-//                    .andExpect(status().isNoContent());
-//
-//            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
-//
-//            user.setVoteIdRestaurant(0);
-//            perform(MockMvcRequestBuilders.patch(API_URL)
-//                    .param("restId", "1")
-//                    .param("voteIdRestaurant", "false")
-//                    .contentType(MediaType.APPLICATION_JSON))
-//                    .andDo(print())
-//                    .andExpect(status().isNoContent());
-//
-//            USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), user);
-//        } else {
-//            perform(MockMvcRequestBuilders.patch(API_URL)
-//                    .param("restId", "1")
-//                    .param("voteIdRestaurant", "true")
-//                    .contentType(MediaType.APPLICATION_JSON))
-//                    .andDo(print())
-//                    .andExpect(status().isConflict())
-//                    .andExpect(content().string(containsString("You can`t vote since 11:00 to 15:00")));
-//        }
-//    }
-
-    @Test
-    void voteForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.patch(API_URL)
-                .param("restId", "1")
-                .param("voteIdRestaurant", "true")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isUnauthorized());
     }
 }

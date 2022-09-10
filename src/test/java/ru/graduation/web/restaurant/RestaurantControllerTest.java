@@ -64,17 +64,6 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void getAllTo() throws Exception {
-        List<RestaurantTo> restaurantTos = RestaurantUtil.getTos(List.of(rest1, rest2, rest3), 0);
-        perform(MockMvcRequestBuilders.get(API_URL))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantTos));
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
     void getWithMeals() throws Exception {
         perform(MockMvcRequestBuilders.get(API_URL + "/" + REST_ID1 + "/meals"))
                 .andExpect(status().isOk())

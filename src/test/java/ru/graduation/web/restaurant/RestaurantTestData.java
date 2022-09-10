@@ -9,12 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RestaurantTestData {
 
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class);
-    public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class);
     public static MatcherFactory.Matcher<Restaurant> RESTAURANT_WITH_MEALS_MATCHER =
             MatcherFactory.usingAssertions(Restaurant.class,
                     //     No need use ignoringAllOverriddenEquals, see https://assertj.github.io/doc/#breaking-changes
                     (a, e) -> assertThat(a).usingRecursiveComparison()
-                            .ignoringFields("meals").isEqualTo(e),
+                            .ignoringFields("dishes").isEqualTo(e),
                     (a, e) -> {
                         throw new UnsupportedOperationException();
                     });

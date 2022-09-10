@@ -18,14 +18,6 @@ spring:
     # ImMemory
     url: jdbc:h2:mem:graduation
     #    tcp: jdbc:h2:tcp://localhost:9092/mem:graduation
-    # Absolute path
-    #    url: jdbc:h2:C:/projects/bootjava/db/topjava
-    #    tcp: jdbc:h2:tcp://localhost:9092/C:/projects/bootjava/db/topjava
-    # Relative path form current dir
-    #    url: jdbc:h2:./db/topjava
-    # Relative path from home
-    #    url: jdbc:h2:~/topjava
-    #    tcp: jdbc:h2:tcp://localhost:9092/~/topjava
     username: sa
     password:
 
@@ -40,12 +32,6 @@ spring:
   cache:
     cache-names: users,restaurants,meals
     caffeine.spec: maximumSize=5000,expireAfterAccess=60s
-
-  security:
-    user:
-      name: user
-      password: password
-      roles: USER
 
 logging:
   level:

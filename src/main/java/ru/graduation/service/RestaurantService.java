@@ -19,9 +19,9 @@ import static ru.graduation.util.validation.ValidationUtil.checkNew;
 public class RestaurantService {
     private final RestaurantRepository repository;
 
-//    public List<RestaurantTo> getAll(User user) {
-//        return RestaurantUtil.getTos(repository.getAll(), user.getVoteRestaurantId().getId());
-//    }
+    public List<Restaurant> getAll() {
+        return repository.getAll();
+    }
 
     public Optional<Restaurant> get(int restId) {
         return repository.findById(restId);

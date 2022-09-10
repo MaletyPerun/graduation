@@ -26,11 +26,11 @@ public class UserTestData {
     public static final User guest = new User(GUEST_ID, "Guest", GUEST_MAIL, "guest");
 
     public static User getNew() {
-        return new User(null, "New", "new@gmail.com", "newPass", true, new Date(), 0, Collections.singleton(Role.USER));
+        return new User(null, "New", "new@gmail.com", "newPass", true, new Date(), Collections.singleton(Role.USER));
     }
 
     public static User getUpdated() {
-        return new User(USER_ID, "UpdatedName", USER_MAIL, "newPass", false, new Date(), 1, Collections.singleton(Role.ADMIN));
+        return new User(USER_ID, "UpdatedName", USER_MAIL, "newPass", false, new Date(), Collections.singleton(Role.ADMIN));
     }
 
     public static String jsonWithPassword(User user, String passw) {

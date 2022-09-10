@@ -25,20 +25,16 @@ import static ru.graduation.util.validation.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@CacheConfig(cacheNames = "users")
-//because time to live is 1 min
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 
     @GetMapping
-    @Cacheable
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         return authUser.getUser();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @CacheEvict(value = "users", allEntries = true)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
@@ -51,26 +47,14 @@ public class ProfileController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    @CacheEvict(value = "users", allEntries = true)
     public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
 
-    @PatchMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Transactional
-    @CacheEvict(value = "users", allEntries = true)
-    public void choose(@RequestParam int restId, @RequestParam boolean voteIdRestaurant, @AuthenticationPrincipal AuthUser authUser) {
-        // get restId
-        log.info(voteIdRestaurant ? "vote {}" : "cancel vote {}", restId);
-        service.prepareAndVote(restId, voteIdRestaurant, authUser.getUser());
-    }
-
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = "users", allEntries = true)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }

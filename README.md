@@ -1,19 +1,41 @@
-Java Enterprise Online Project
+Graduation project of an online internship at TopJava
 ===============================
-Выпускной проект онлайн стажировки на TopJava 
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/efbd4c845aa7424e86dc4d14d1124c57)](https://www.codacy.com/gh/MaletyPerun/graduation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MaletyPerun/graduation&amp;utm_campaign=Badge_Grade)
 
-Ссылка на ТЗ: https://github.com/JavaWebinar/topjava/blob/doc/doc/graduation.md#technical-requirement
+-------------------------------------------------------------
 
-Разработано Spring Enterprise приложение c авторизацией и правами доступа
-на основе ролей с использованием наиболее популярных инструментов и технологий Java:
-Maven, Spring Boot 2.7, Spring Data JPA, Spring Security, REST(Jackson), Lombok, Swagger (REST документация).
-В проекте используется БД H2. Уделено внимание ошибкам при запросах и их обработке.
+Developed Spring Enterprise application with authorization and access rights
+role-based using the most popular Java tools and technologies:
+Maven, Spring Boot 2.7, Spring Data JPA, Spring Security, REST(Jackson), Lombok, Swagger (REST documentation).
+The project uses the H2 database. Attention is paid to errors in requests and their processing.
+
+
+##  Technical requirement:
+Design and implement a REST API using Hibernate/Spring/SpringMVC (Spring-Boot preferred!) **without frontend**.
+
+-------------------------------------------------------------
+
+The task is:
+
+Build a voting system for deciding where to have lunch.
+
+* 2 types of users: admin and regular users
+* Admin can input a restaurant and it's lunch menu of the day (2-5 items usually, just a dish name and price)
+* Menu changes each day (admins do the updates)
+* Users can vote on which restaurant they want to have lunch at
+* Only one vote counted per user
+* If user votes again the same day:
+    - If it is before 11:00 we assume that he changed his mind.
+    - If it is after 11:00 then it is too late, vote can't be changed
+
+Each restaurant provides a new menu each day.
+
+As a result, provide a link to github repository. It should contain the code, README.md with API documentation and couple curl commands to test it (**better - link to Swagger**).
 
 -------------------------------------------------------------
 [REST API documentation](http://localhost:8080/swagger-ui.html)  
-Креденшелы:
+Credentials:
 ```
 Admin: admin@gmail.com / admin
 User:  user@yandex.ru / password

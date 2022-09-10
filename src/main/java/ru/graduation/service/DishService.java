@@ -7,15 +7,19 @@ import ru.graduation.model.Dish;
 import ru.graduation.repository.DishRepository;
 import ru.graduation.repository.RestaurantRepository;
 
-import static ru.graduation.util.validation.ValidationUtil.assureIdConsistent;
-import static ru.graduation.util.validation.ValidationUtil.checkNew;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class DishService {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
-    @Transactional
+
+    public List<Dish> getAll(int restId) {
+        restaurantRepository.getExisted(restId);
+        return dishRepository.getAll(restId);
+    }
+
     public Dish get(int restId, int dishId) {
         return dishRepository.getBelong(restId, dishId);
     }
@@ -33,7 +37,6 @@ public class DishService {
         dishRepository.save(dish);
     }
 
-    @Transactional
     public void delete(int dishId) {
         dishRepository.deleteExisted(dishId);
     }

@@ -5,9 +5,9 @@ import ru.graduation.web.MatcherFactory;
 
 import java.util.Date;
 
-public class MealTestData {
+public class DishTestData {
 
-    public static final MatcherFactory.Matcher<Dish> MEAL_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
+    public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
     public static final int MEAL_ID1 = 1;
     public static final int MEAL_ID2 = 2;
     public static final int MEAL_ID3 = 3;

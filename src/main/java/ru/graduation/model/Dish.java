@@ -2,10 +2,7 @@ package ru.graduation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 import ru.graduation.util.validation.NoHtml;
 
@@ -16,27 +13,27 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-// TODO: 10/09/2022 поправить уникальность индекса и обработка исключения далее при дублировании
-@Table(name = "meal", uniqueConstraints = {@UniqueConstraint(columnNames = {"price", "description", "restaurant_id"}, name = "meal_unique_restaurant_price_descrip_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "description"}, name = "dish_unique_restaurant_description_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dish extends BaseEntity {
 
     @Column(name = "price", nullable = false)
-    @Range(min = 10)
+    @Range(min = 1)
     @NotNull
     private Integer price;
 
     @Column(name = "description", nullable = false)
     @NotBlank
-    @Size(min = 2, max = 120)
+    @Size(min = 2, max = 250)
     @NoHtml
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
+    @ToString.Exclude
     private Restaurant restaurant;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)

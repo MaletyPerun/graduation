@@ -18,26 +18,22 @@ import static ru.graduation.util.validation.ValidationUtil.inTime;
 @AllArgsConstructor
 public class VoteService {
 
-    private static final LocalTime END_TIME_TO_REVOTE = LocalTime.of(11, 0);
-
     private final VoteRepository voteRepository;
 
     private final RestaurantRepository restaurantRepository;
 
     public Vote create(AuthUser authUser, int restId, Vote vote) {
-        return voteRepository.save(prepareToSave(vote, authUser.getUser(), restId));
+        vote.setUser(authUser.getUser());
+        vote.setRestaurant(restaurantRepository.getExisted(restId));
+        return voteRepository.save(vote);
     }
 
     public void update(AuthUser authUser, int restId, Vote vote) {
         LocalDateTime revote = LocalDateTime.now();
         voteRepository.getBelong(authUser.getUser().getId(), revote.toLocalDate());
-        inTime(revote.toLocalTime().isAfter(END_TIME_TO_REVOTE));
-        voteRepository.save(prepareToSave(vote, authUser.getUser(), restId));
-    }
-
-    public Vote prepareToSave(Vote vote, User user, int restId) {
-        vote.setUser(user);
+        inTime(revote);
+        vote.setUser(authUser.getUser());
         vote.setRestaurant(restaurantRepository.getExisted(restId));
-        return vote;
+        voteRepository.save(vote);
     }
 }

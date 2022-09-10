@@ -32,25 +32,23 @@ import static ru.graduation.util.validation.ValidationUtil.checkNew;
 public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
-    // TODO: 10/09/2022 разные запросы на ресторан и ресторан с едой
-
     protected final RestaurantService service;
 
-//    @GetMapping
-//    @Cacheable
-//    public List<RestaurantTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
-//        log.info("get all restaurants");
-////        with chosen restaurant
-//        return service.getAll(authUser.getUser());
-//    }
+    @GetMapping
+    @Cacheable
+    public List<Restaurant> getAll() {
+        log.info("get all restaurants");
+        return service.getAll();
+    }
 
     @GetMapping("/{restId}")
+    @Cacheable
     public ResponseEntity<Restaurant> get(@PathVariable int restId) {
         log.info("get restaurant {}", restId);
         return ResponseEntity.of(service.get(restId));
     }
 
-    @GetMapping("/{restId}/dishes")
+    @GetMapping("/{restId}/withDishes")
     @Cacheable
     public ResponseEntity<Restaurant> getWithMeals(@PathVariable int restId) {
         log.info("get restaurant {} with dishes", restId);
@@ -87,4 +85,6 @@ public class RestaurantController {
         log.info("delete restaurant {}", restId);
         service.delete(restId);
     }
+
+    // TODO: 10/09/2022 протестировать на кеш блюда при удалении ресторана
 }
