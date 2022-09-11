@@ -3,11 +3,9 @@ package ru.graduation.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import ru.graduation.model.Dish;
 import ru.graduation.model.Vote;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static ru.graduation.util.validation.ValidationUtil.checkBelong;
 

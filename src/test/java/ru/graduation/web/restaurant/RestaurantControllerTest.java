@@ -10,15 +10,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.graduation.model.Restaurant;
 import ru.graduation.repository.RestaurantRepository;
-import ru.graduation.to.RestaurantTo;
 import ru.graduation.util.JsonUtil;
-import ru.graduation.util.RestaurantUtil;
 import ru.graduation.web.AbstractControllerTest;
 
-import java.util.List;
-
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -191,7 +187,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(API_URL + "/" + REST_ID1))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-//        assertFalse(repository.findById(REST_ID1).isPresent());
+        assertFalse(repository.findById(REST_ID1).isPresent());
     }
 
     @Test

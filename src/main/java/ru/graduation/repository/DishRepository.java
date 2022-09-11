@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.graduation.model.Dish;
 
-import java.util.Collection;
 import java.util.List;
 
 import static ru.graduation.util.validation.ValidationUtil.checkBelong;

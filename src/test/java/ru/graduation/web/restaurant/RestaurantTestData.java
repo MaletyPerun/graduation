@@ -1,7 +1,6 @@
 package ru.graduation.web.restaurant;
 
 import ru.graduation.model.Restaurant;
-import ru.graduation.to.RestaurantTo;
 import ru.graduation.web.MatcherFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;

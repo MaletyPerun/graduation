@@ -2,15 +2,12 @@ package ru.graduation.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.graduation.model.User;
 import ru.graduation.model.Vote;
 import ru.graduation.repository.RestaurantRepository;
 import ru.graduation.repository.VoteRepository;
 import ru.graduation.web.AuthUser;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import static ru.graduation.util.validation.ValidationUtil.checkDuplicate;
 import static ru.graduation.util.validation.ValidationUtil.inTime;

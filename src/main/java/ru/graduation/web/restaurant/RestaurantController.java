@@ -8,14 +8,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.graduation.model.Restaurant;
-import ru.graduation.service.RestaurantService;
-import ru.graduation.to.RestaurantTo;
-import ru.graduation.web.AuthUser;
+import ru.graduation.repository.RestaurantRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -32,27 +29,27 @@ import static ru.graduation.util.validation.ValidationUtil.checkNew;
 public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
-    protected final RestaurantService service;
+    private final RestaurantRepository repository;
 
     @GetMapping
     @Cacheable
     public List<Restaurant> getAll() {
         log.info("get all restaurants");
-        return service.getAll();
+        return repository.getAll();
     }
 
     @GetMapping("/{restId}")
     @Cacheable
     public ResponseEntity<Restaurant> get(@PathVariable int restId) {
         log.info("get restaurant {}", restId);
-        return ResponseEntity.of(service.get(restId));
+        return ResponseEntity.of(repository.findById(restId));
     }
 
     @GetMapping("/{restId}/withDishes")
     @Cacheable
     public ResponseEntity<Restaurant> getWithMeals(@PathVariable int restId) {
         log.info("get restaurant {} with dishes", restId);
-        return ResponseEntity.of(service.getWithMeals(restId));
+        return ResponseEntity.of(repository.getWithMeals(restId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +58,7 @@ public class RestaurantController {
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
-        Restaurant created = service.create(restaurant);
+        Restaurant created = repository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -75,7 +72,7 @@ public class RestaurantController {
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int restId) {
         assureIdConsistent(restaurant, restId);
         log.info("update {}", restaurant);
-        service.update(restaurant, restId);
+        repository.save(restaurant);
     }
 
     @DeleteMapping("/{restId}")
@@ -83,8 +80,6 @@ public class RestaurantController {
     @CacheEvict(allEntries = true)
     public void delete(@PathVariable int restId) {
         log.info("delete restaurant {}", restId);
-        service.delete(restId);
+        repository.deleteExisted(restId);
     }
-
-    // TODO: 10/09/2022 протестировать на кеш блюда при удалении ресторана
 }

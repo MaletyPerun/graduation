@@ -50,7 +50,7 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void createInvalid() throws Exception{
+    void createInvalid() throws Exception {
         Vote newVote = getNewVote();
         perform(MockMvcRequestBuilders.post(API_URL)
                 .param("restId", "4")
@@ -61,7 +61,7 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void createForbidden() throws Exception{
+    void createForbidden() throws Exception {
         Vote newVote = getNewVote();
         perform(MockMvcRequestBuilders.post(API_URL)
                 .param("restId", "2")
@@ -73,7 +73,7 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void createDuplicate() throws Exception{
+    void createDuplicate() throws Exception {
         Vote newVote = getNewVote();
         perform(MockMvcRequestBuilders.post(API_URL)
                 .param("restId", "1")
@@ -85,7 +85,7 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void update() throws Exception{
+    void update() throws Exception {
         Vote updatedVote = getUpdatedVote();
         perform(MockMvcRequestBuilders.put(API_URL + "/" + VOTE_ID1)
                 .param("restId", "2")
@@ -98,7 +98,7 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void updateInvalid() throws Exception{
+    void updateInvalid() throws Exception {
         Vote updateVote = getUpdatedVote();
         perform(MockMvcRequestBuilders.put(API_URL + "/" + VOTE_ID1)
                 .param("restId", "4")
@@ -109,7 +109,7 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void updateForbidden() throws Exception{
+    void updateForbidden() throws Exception {
         Vote updateVote = getUpdatedVote();
         perform(MockMvcRequestBuilders.put(API_URL + "/" + VOTE_ID1)
                 .param("restId", "3")
@@ -121,7 +121,7 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void updateDuplicate() throws Exception{
+    void updateDuplicate() throws Exception {
         Vote updateVote = getUpdatedVote();
         perform(MockMvcRequestBuilders.put(API_URL + "/" + VOTE_ID1)
                 .param("restId", "1")

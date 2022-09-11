@@ -6,16 +6,11 @@ import ru.graduation.web.MatcherFactory;
 import java.time.LocalDate;
 import java.time.Month;
 
-import static java.time.LocalDateTime.of;
-
 public class DishTestData {
 
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
     public static final int DISH_ID1 = 1;
     public static final int DISH_ID2 = 2;
-//    public static final int MEAL_ID3 = 3;
-//    public static final int MEAL_ID4 = 4;
-//    public static final int MEAL_ID5 = 5;
     public static final int DISH_ID6 = 6;
 
     public static final int NOT_FOUND = 100;
