@@ -8,8 +8,6 @@ import ru.graduation.web.MatcherFactory;
 import java.util.Collections;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password");
 
