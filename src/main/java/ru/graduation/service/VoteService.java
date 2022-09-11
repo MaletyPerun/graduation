@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import static ru.graduation.util.validation.ValidationUtil.checkDuplicate;
 import static ru.graduation.util.validation.ValidationUtil.inTime;
 
 @Service
@@ -30,7 +31,8 @@ public class VoteService {
 
     public void update(AuthUser authUser, int restId, Vote vote) {
         LocalDateTime revote = LocalDateTime.now();
-        voteRepository.getBelong(authUser.getUser().getId(), revote.toLocalDate());
+        Vote fromDB = voteRepository.getBelong(authUser.getUser().getId(), revote.toLocalDate());
+        checkDuplicate(fromDB.getRestaurant().getId(), restId);
         inTime(revote);
         vote.setUser(authUser.getUser());
         vote.setRestaurant(restaurantRepository.getExisted(restId));

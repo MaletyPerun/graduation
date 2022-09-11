@@ -3,10 +3,7 @@ package ru.graduation.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
@@ -66,10 +63,11 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    @OrderBy("localDate DESC")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    @OrderBy("dateVote DESC")
 //    @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
 //    @Schema(hidden = true)
+//    @ToString.Exclude
 //    private List<Vote> vote;
 
     public User(User u) {

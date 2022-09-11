@@ -7,7 +7,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import ru.graduation.model.User;
 import ru.graduation.repository.UserRepository;
-import ru.graduation.service.ProfileService;
 import ru.graduation.util.UserUtil;
 
 @Slf4j
@@ -15,9 +14,6 @@ public abstract class AbstractUserController {
 
     @Autowired
     protected UserRepository repository;
-
-    @Autowired
-    protected ProfileService service;
 
     @Autowired
     private UniqueMailValidator emailValidator;

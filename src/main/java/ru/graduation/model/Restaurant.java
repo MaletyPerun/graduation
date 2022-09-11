@@ -31,8 +31,8 @@ public class Restaurant extends NamedEntity {
     @ToString.Exclude
     private List<Dish> dishes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("localDate DESC")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy("dateVote DESC")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @Schema(hidden = true)
     @ToString.Exclude

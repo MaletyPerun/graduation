@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import ru.graduation.HasId;
 import ru.graduation.error.DataConflictException;
 import ru.graduation.error.IllegalRequestDataException;
+import ru.graduation.model.Vote;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -66,6 +67,12 @@ public class ValidationUtil {
             throw new DataConflictException("You can`t revote after 11:00");
         }
     }
+
+    public static void checkDuplicate(int restIdDb, int restId) {
+        if (restIdDb == restId) {
+            throw new DataConflictException("You have already voted for this restaurant, can`t revote");
+        }
+     }
 
     //  https://stackoverflow.com/a/65442410/548473
     @NonNull

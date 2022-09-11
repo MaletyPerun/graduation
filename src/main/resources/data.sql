@@ -13,10 +13,13 @@ VALUES  ('McDonalds', 'Пушкинская 8'),
         ('Все хорошо', 'Ломоносовская 17'),
         ('Доски', 'Московский 76');
 
-INSERT INTO MEAL (price, description, restaurant_id)
+INSERT INTO DISH (PRICE, DESCRIPTION, RESTAURANT_ID)
 VALUES ('500', 'Завтрак', 1),
        ('600', 'Обед', 2),
        ('700', 'Ужин', 3),
        ('800', 'Завтрак', 2),
        ('900', 'Обед', 3),
        ('400', 'Ужин', 1);
+
+INSERT INTO VOTE (USER_ID, RESTAURANT_ID, DATE_VOTE)
+VALUES  (1, 1, '2022-09-11');

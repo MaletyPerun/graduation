@@ -25,7 +25,7 @@ import static ru.graduation.web.user.UserTestData.ADMIN_MAIL;
 import static ru.graduation.web.user.UserTestData.USER_MAIL;
 
 class DishControllerTest extends AbstractControllerTest {
-    private static final String API_URL = "/api/restaurants/1/meals";
+    private static final String API_URL = "/api/restaurants/1/dishes";
 
     @Autowired
     private DishRepository repository;
@@ -33,7 +33,7 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(API_URL + "/" + MEAL_ID1))
+        perform(MockMvcRequestBuilders.get(API_URL + "/" + DISH_ID1))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -52,7 +52,7 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getNotBelong() throws Exception {
-        perform(MockMvcRequestBuilders.get(API_URL + "/" + MEAL_ID2))
+        perform(MockMvcRequestBuilders.get(API_URL + "/" + DISH_ID2))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity());
@@ -113,12 +113,12 @@ class DishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Dish updateDish = getUpdated();
-        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + DISH_ID1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        DISH_MATCHER.assertMatch(repository.getExisted(MEAL_ID1), updateDish);
+        DISH_MATCHER.assertMatch(repository.getExisted(DISH_ID1), updateDish);
     }
 
     @Test
@@ -126,7 +126,7 @@ class DishControllerTest extends AbstractControllerTest {
     void updateInvalid() throws Exception {
         Dish updateDish = getUpdated();
         updateDish.setDescription("");
-        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + DISH_ID1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
@@ -137,8 +137,8 @@ class DishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicate() throws Exception {
-        Dish updateDish = new Dish(MEAL_ID1, DISH_6.getPrice(), DISH_6.getDescription(), DISH_6.getRegistered());
-        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
+        Dish updateDish = new Dish(DISH_ID1, DISH_6.getPrice(), DISH_6.getDescription(), DISH_6.getRegistered());
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + DISH_ID1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
@@ -150,7 +150,7 @@ class DishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     @Transactional(propagation = Propagation.NEVER)
     void updateNotBelong() throws Exception {
-        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID2)
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + DISH_ID2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(DISH_2)))
                 .andDo(print())
@@ -163,7 +163,7 @@ class DishControllerTest extends AbstractControllerTest {
     void updateNotFound() throws Exception {
         Dish updateDish = getUpdated();
         updateDish.setId(NOT_FOUND);
-        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + DISH_ID1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
@@ -174,7 +174,7 @@ class DishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = USER_MAIL)
     void updateForbidden() throws Exception {
         Dish updateDish = getUpdated();
-        perform(MockMvcRequestBuilders.put(API_URL + "/" + MEAL_ID1)
+        perform(MockMvcRequestBuilders.put(API_URL + "/" + DISH_ID1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updateDish)))
                 .andDo(print())
@@ -184,10 +184,10 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(API_URL + "/" + MEAL_ID1))
+        perform(MockMvcRequestBuilders.delete(API_URL + "/" + DISH_ID1))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(repository.findById(MEAL_ID1).isPresent());
+        assertFalse(repository.findById(DISH_ID1).isPresent());
     }
 
     @Test
@@ -201,7 +201,7 @@ class DishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void deleteForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.delete(API_URL + "/" + MEAL_ID1))
+        perform(MockMvcRequestBuilders.delete(API_URL + "/" + DISH_ID1))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
